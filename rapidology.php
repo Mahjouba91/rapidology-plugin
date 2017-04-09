@@ -1708,7 +1708,7 @@ SOL;
 		}
 
 		$service = ! empty( $_POST['rapidology_service'] ) ? sanitize_text_field( $_POST['rapidology_service'] ) : '';
-
+		
 		if ( 'empty' == $service ) {
 			echo '<ul class="rad_dashboard_new_account_fields"><li></li></ul>';
 		} else {
@@ -1805,12 +1805,13 @@ SOL;
 								<option value="feedblitz">%14$s</option>
 								<option value="getresponse">%9$s</option>
 								<option value="hubspot">%17$s</option>
-								<option value ="hubspot-standard">%20$s</option>
+								<option value="hubspot-standard">%20$s</option>
 								<option value="icontact">%8$s</option>
 								<option value="infusionsoft">%15$s</option>
 								<option value="madmimi">%7$s</option>
 								<option value="mailchimp">%3$s</option>
 								<option value="mailpoet">%11$s</option>
+								<option value="mailpoet-v3">%24$s</option>
 								<option value="ontraport">%13$s</option>
 								<option value="salesforce">%18$s</option>
 								<option value="sendinblue">%10$s</option>
@@ -1842,7 +1843,8 @@ SOL;
 				esc_html__( 'HubSpot Standard', 'rapidology'),#20
 				esc_html__( 'Redirect Button', 'rapidology'),#21
 				esc_html__( 'ConvertKit', 'rapidology' ),#22
-                esc_html__( 'Drip', 'rapidology')#23
+				esc_html__( 'Drip', 'rapidology'),#23
+				esc_html__( 'MailPoet v3', 'rapidology' )#24
 
 			);
 		}
@@ -2852,6 +2854,11 @@ SOL;
 								$mailpoet = new rapidology_mailpoet();
 								$error_message = $mailpoet->get_mailpoet_lists( $name );
 								break;
+								
+							case 'mailpoet-v3' :
+								$mailpoet_v3 = new rapidology_mailpoet_v3();
+								$error_message = $mailpoet_v3->get_mailpoet_lists( $name );
+								break;
 
 							case 'aweber' :
 								$aweber = new rapidology_aweber();
@@ -3021,7 +3028,12 @@ SOL;
 				$mailpoet = new rapidology_mailpoet();
 				$error_message = $mailpoet->get_mailpoet_lists( $name );
 				break;
-
+			
+			case 'mailpoet-v3' :
+				$mailpoet_v3 = new rapidology_mailpoet_v3();
+				$error_message = $mailpoet_v3->get_mailpoet_lists( $name );
+				break;
+				
 			case 'aweber' :
 				$aweber = new rapidology_aweber();
 				$error_message = $aweber->get_aweber_lists( $api_key, $name );
@@ -3181,7 +3193,12 @@ SOL;
 					$mailpoet = new rapidology_mailpoet();
 					$error_message = $mailpoet->subscribe_mailpoet( $list_id, $email, $name, $last_name );
 					break;
-
+				
+				case 'mailpoet-v3' :
+					$mailpoet_v3 = new rapidology_mailpoet_v3();
+					$error_message = $mailpoet_v3->subscribe_mailpoet( $list_id, $email, $name, $last_name );
+					break;
+					
 				case 'aweber' :
 					$aweber = new rapidology_aweber();
 					$error_message = $aweber->subscribe_aweber( $list_id, $account_name, $email, $name );
